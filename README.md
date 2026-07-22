@@ -1,16 +1,23 @@
-## Hi there 👋
+# hey! i'm noah
 
-<!--
-**morbyne/morbyne** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+medical student by night, software geek by later night.
 
-Here are some ideas to get you started:
+i make web thingys, but i work in go sometimes, so that makes me a fullstack genius.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+```
+┌─ languages ──────────────────────────────────────────┐
+│                                                      │
+│  typescript  svelte 5 · sveltekit                    │
+│              tried the others, came back, dont want  │
+│              to talk about it...                     │
+│                                                      │
+│  php         laravel · filament · livewire           │
+│              cockroach of languages, complimentary   │
+│                                                      │
+│  go          the standard library, mostly            │
+│              a third of any file is if err != nil    │
+│              and ive made my peace with that         │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
+
