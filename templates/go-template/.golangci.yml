@@ -1,0 +1,51 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - govet
+    - unused
+    - ineffassign
+    - staticcheck
+    - errcheck
+    - revive
+    - sloglint
+    - contextcheck
+    - depguard
+    - gomoddirectives
+    - errorlint
+    - forbidigo
+  settings:
+    revive:
+      rules:
+        - name: unused-parameter
+        - name: context-as-argument
+    sloglint:
+      key-naming-case: snake
+    depguard:
+      rules:
+        main:
+          deny:
+            - pkg: github.com/stretchr/testify
+              desc: stdlib testing is the school, go-cmp where diffs earn it
+            - pkg: github.com/golang/mock
+              desc: no mock frameworks, fakes are hand-rolled
+            - pkg: go.uber.org/mock
+              desc: no mock frameworks, fakes are hand-rolled
+            - pkg: github.com/spf13/viper
+              desc: config is hand-assembled, see structure.md
+            - pkg: github.com/knadh/koanf
+              desc: config is hand-assembled, see structure.md
+            - pkg: github.com/samber/lo
+              desc: stdlib slices/maps covers it
+            - pkg: github.com/go-resty/resty
+              desc: net/http suffices
+    forbidigo:
+      forbid:
+        - pattern: time\.Sleep
+          msg: no sleep synchronization in tests, use synctest or a signal
+  exclusions:
+    rules:
+      - path-except: _test\.go$
+        linters:
+          - forbidigo

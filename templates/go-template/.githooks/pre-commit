@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+if [ -d "$(git rev-parse --git-path rebase-merge)" ] || [ -d "$(git rev-parse --git-path rebase-apply)" ]; then
+	exit 0
+fi
+
+bad=$(go tool gofumpt -l .)
+if [ -n "$bad" ]; then
+	echo "$bad"
+	echo "gofumpt wants changes, run make fmt"
+	exit 1
+fi
+go vet ./...
+go fix -diff ./...
+go mod tidy -diff
+golangci-lint run
+go test ./...
+make -s hygiene
