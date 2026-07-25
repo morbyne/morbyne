@@ -3,10 +3,12 @@
 setup:
 	@# probe the path the hooks resolve, never PATH or the global config. PATH
 	@# needs a login profile containers dont run, and a collaborator carrying
-	@# their own global hooks isnt on a vox machine
-	@if [ -x "$$HOME/.local/bin/vox-engine" ]; then \
+	@# their own global hooks isn't on a vox machine
+	@top=$$(git rev-parse --show-toplevel 2>/dev/null) || { echo "not a git repo, git init first, setup writes repo config"; exit 1; }; \
+	[ "$$top" = "$$(pwd -P)" ] || { echo "setup only runs in a scaffolded copy, this is the template inside $$top"; exit 1; }; \
+	if [ -x "$$HOME/.local/bin/vox-engine" ]; then \
 		git config vox.projectHooks .githooks; \
-		git config vox.enabled true; \
+		git config --local --get vox.enabled >/dev/null || git config vox.enabled true; \
 		if [ "$$(git config --local --get core.hooksPath)" = ".githooks" ]; then \
 			git config --unset core.hooksPath; \
 		fi; \
