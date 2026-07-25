@@ -3,7 +3,9 @@
 setup:
 	@# probe the path the hooks resolve, never PATH or the global config. PATH
 	@# needs a login profile containers dont run, and a collaborator carrying
-	@# their own global hooks isn't on a vox machine
+	@# their own global hooks isn't on a vox machine. an enrolled repo missing
+	@# the binary is a wiring fault, never a vox-less machine, so that case
+	@# fails instead of taking the hook slot
 	@top=$$(git rev-parse --show-toplevel 2>/dev/null) || { echo "not a git repo, git init first, setup writes repo config"; exit 1; }; \
 	[ "$$top" = "$$(pwd -P)" ] || { echo "setup only runs in a scaffolded copy, this is the template inside $$top"; exit 1; }; \
 	if [ -x "$$HOME/.local/bin/vox-engine" ]; then \
@@ -13,6 +15,9 @@ setup:
 			git config --unset core.hooksPath; \
 		fi; \
 	else \
+		if git config --local --get vox.enabled >/dev/null; then \
+			echo "this repo is enrolled and the vox binary is missing, fix the wiring, not the hook slot"; exit 1; \
+		fi; \
 		git config core.hooksPath .githooks; \
 	fi
 
