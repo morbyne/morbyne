@@ -10,13 +10,13 @@ setup:
 	[ "$$top" = "$$(pwd -P)" ] || { echo "setup only runs in a scaffolded copy, this is the template inside $$top"; exit 1; }; \
 	if [ -x "$$HOME/.local/bin/vox-engine" ]; then \
 		git config vox.projectHooks .githooks; \
-		git config --local --get vox.enabled >/dev/null || git config vox.enabled true; \
+		[ -n "$$(git config --local --get vox.enabled)" ] || git config vox.enabled true; \
 		if [ "$$(git config --local --get core.hooksPath)" = ".githooks" ]; then \
 			git config --unset core.hooksPath; \
 		fi; \
 	else \
-		if git config --local --get vox.enabled >/dev/null; then \
-			echo "this repo is enrolled and the vox binary is missing, fix the wiring, not the hook slot"; exit 1; \
+		if [ -n "$$(git config --local --get vox.enabled)" ]; then \
+			echo "this repo is enrolled and the vox binary is missing, fix the wiring, not the hook slot (checked $$HOME/.local/bin/vox-engine)"; exit 1; \
 		fi; \
 		git config core.hooksPath .githooks; \
 	fi
